@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кеширшы мени 🥹❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 50px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 200px;
+        }
+
+        button {
+            padding: 20px 40px;
+            font-size: 1.3em;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            color: white;
+            position: relative;
+            z-index: 100;
+        }
+
+        #yes-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        #yes-btn:hover {
+            background: linear-gradient(135deg, #45a049, #4CAF50);
+            box-shadow: 0 12px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        #no-btn {
+            background: linear-gradient(135deg, #f44336, #da190b);
+            position: absolute;
+            transition: all 0.2s ease;
+        }
+
+        #no-btn:hover {
+            background: linear-gradient(135deg, #da190b, #f44336);
+        }
+
+        /* Сердечки */
+        .heart {
+            position: fixed;
+            font-size: 30px;
+            color: #ff69b4;
+            animation: float 4s infinite ease-in-out;
+            opacity: 0.7;
+            z-index: 5;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            button {
+                padding: 15px 30px;
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Кеширшы мены Жанымсол 🥹❤️</h1>
+        <div class="buttons-container">
+            <button id="yes-btn">Хорошо прощаю</button>
+            <button id="no-btn">Жок, сам виноват</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const noBtnTexts = ['Жооок', 'Кешырмимм', 'Все ровно жок', 'Неет'];
+        let yesScale = 1;
+
+        // Создание сердечек
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 7000);
+        }
+
+        // Создаем много сердечек
+        setInterval(createHeart, 300);
+        for (let i = 0; i < 20; i++) {
+            setTimeout(createHeart, i * 200);
+        }
+
+        // Обработчик кнопки "Нет"
+        noBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Увеличиваем кнопку "Да"
+            yesScale *= 1.2;
+            yesBtn.style.transform = `scale(${yesScale})`;
+            
+            // Меняем текст на случайный
+            const randomText = noBtnTexts[Math.floor(Math.random() * noBtnTexts.length)];
+            noBtn.textContent = randomText;
+            
+            // Перемещаем кнопку в случайное место
+            const container = document.querySelector('.buttons-container');
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            const maxX = containerRect.width - btnRect.width - 40;
+            const maxY = containerRect.height - btnRect.height - 40;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        });
+
+        // Обработчик кнопки "Да"
+        yesBtn.addEventListener('click', function() {
+            window.location.href = 'success.html';
+        });
+    </script>
+</body>
+</html>
